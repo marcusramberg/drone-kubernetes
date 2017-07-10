@@ -19,7 +19,7 @@ fi
 if [ ! -z ${PLUGIN_KUBERNETES_CLIENT_CERT} ]; then
   echo ${PLUGIN_KUBERNETES_CLIENT_CERT} | base64 -d > client.crt
   echo ${PLUGIN_KUBERNETES_CLIENT_KEY} | base64 -d > client.key
-  kubectl config set-cluster default --server=${KUBERNETES_SERVER} --client-certificate=client.crt --client-key=client.key
+  kubectl config set-credentials default --server=${KUBERNETES_SERVER} --client-certificate=client.crt --client-key=client.key
 fi
 if [ ! -z ${PLUGIN_KUBERNETES_CERT} ]; then
   echo ${PLUGIN_KUBERNETES_CERT} | base64 -d > ca.crt
