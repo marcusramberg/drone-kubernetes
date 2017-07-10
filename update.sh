@@ -4,21 +4,25 @@ if [ -z ${PLUGIN_NAMESPACE} ]; then
   PLUGIN_NAMESPACE="default"
 fi
 
-if [ ! -z ${PLUGIN_KUBERNETES_TOKEN} ]; then
-  KUBERNETES_TOKEN=$PLUGIN_KUBERNETES_TOKEN
-fi
-
 if [ ! -z ${PLUGIN_KUBERNETES_SERVER} ]; then
   KUBERNETES_SERVER=$PLUGIN_KUBERNETES_SERVER
 fi
 
-if [ ! -z ${PLUGIN_KUBERNETES_CERT} ]; then
-  KUBERNETES_CERT=${PLUGIN_KUBERNETES_CERT}
+if [ ! -z ${PLUGIN_KUBERNETES_TOKEN} ]; then
+  kubectl config set-credentials default --token=${PLUGIN_KUBERNETES_TOKEN}
 fi
 
-kubectl config set-credentials default --token=${KUBERNETES_TOKEN}
-if [ ! -z ${KUBERNETES_CERT} ]; then
-  echo ${KUBERNETES_CERT} | base64 -d > ca.crt
+if [ ! -z ${PLUGIN_KUBERNETES_USERNAME} ]; then
+  kubectl config set-credentials default --username=${PLUGIN_KUBERNETES_USERNAME} --password=${PLUGIN_KUBERNETS_PASSWORD}
+fi
+
+if [ ! -z ${PLUGIN_KUBERNETES_CLIENT_CERT} ]; then
+  echo ${PLUGIN_KUBERNETES_CLIENT_CERT} | base64 -d > client.crt
+  echo ${PLUGIN_KUBERNETES_CLIENT_KEY} | base64 -d > client.key
+  kubectl config set-cluster default --server=${KUBERNETES_SERVER} --client-certificate=client.crt --client-key=client.key
+fi
+if [ ! -z ${PLUGIN_KUBERNETES_CERT} ]; then
+  echo ${PLUGIN_KUBERNETES_CERT} | base64 -d > ca.crt
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
 else
   echo "WARNING: Using insecure connection to cluster"
