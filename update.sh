@@ -13,11 +13,11 @@ if [ ! -z ${KUBERNETES_TOKEN} ]; then
 fi
 
 if [ ! -z ${KUBERNETES_USERNAME} ]; then
-  kubectl config set-credentials default --username=${KUBERNETES_USERNAME} --password=${KUBERNETS_PASSWORD}
+  kubectl config set-credentials default --username=${KUBERNETES_USERNAME} --password=${KUBERNETES_PASSWORD}
 fi
 
-if [ ! -z ${KUBERNETES_CLIENT_CERT} ]; then
-  echo ${KUBERNETES_CLIENT_CERT} | base64 -d > client.crt
+if [ ! -z ${KUBERNETES_CLIENT_CERTIFICATE} ]; then
+  echo ${KUBERNETES_CLIENT_CERTIFICATE} | base64 -d > client.crt
   echo ${KUBERNETES_CLIENT_KEY} | base64 -d > client.key
   kubectl config set-credentials default --server=${KUBERNETES_SERVER} --client-certificate=client.crt --client-key=client.key
 fi
