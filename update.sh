@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 if [ -z ${PLUGIN_NAMESPACE} ]; then
   PLUGIN_NAMESPACE="default"
