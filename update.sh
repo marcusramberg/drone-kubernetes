@@ -4,6 +4,7 @@ if [ -z ${PLUGIN_NAMESPACE} ]; then
   PLUGIN_NAMESPACE="default"
 fi
 
+set
 if [ ! -z ${PLUGIN_KUBERNETES_SERVER} ]; then
   KUBERNETES_SERVER=$PLUGIN_KUBERNETES_SERVER
 fi
